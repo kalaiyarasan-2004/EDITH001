@@ -21,6 +21,9 @@ for filename in os.listdir(known_faces_dir):
 # Initialize the webcam video capture
 video_capture = cv2.VideoCapture(0)
 
+# Flag to check if the person is recognized
+recognized_person = None
+
 while True:
     # Capture a single frame of video
     ret, frame = video_capture.read()
@@ -47,6 +50,11 @@ while True:
         if matches[best_match_index]:
             name = known_face_names[best_match_index]
 
+        # If a new person is recognized, print the name
+        if recognized_person != name and name != "Unknown":
+            recognized_person = name
+            print(f"Detected: {name}")
+
         # Scale back up face locations since the frame we detected in was scaled to 1/4 size
         top, right, bottom, left = face_location
         top *= 4
@@ -56,20 +64,18 @@ while True:
 
         # Draw a box around the face
         cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
+        # Draw a label with the name below
         # Draw a label with the name below the face
         cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
-        # Print the name of the person detected
-        print(f"Detected: {name}")
-
     # Display the resulting frame
     cv2.imshow('Video', frame)
 
-    # Hit 'q' on the keyboard to quit!
+    # Hit 'q' on the keyboard to quit
     if cv2.waitKey(1) & 0xFF == ord('q'):
-        break   
+        break
 
 # Release handle to the webcam
 video_capture.release()
