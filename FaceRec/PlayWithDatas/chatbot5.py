@@ -7,8 +7,8 @@ import webbrowser
 import os
 import requests
 import pyaudio
-import stdlibWithroll
-import oneprint
+import stdlibWithroll # for my collede data's
+import oneprint #for facerec
 import pywhatkit
 import pyautogui
 # Initialize recognizer and text-to-speech engine
@@ -37,7 +37,7 @@ conversations = [
     ("Goodbye", "Goodbye! Have a great day! sir"),
     ("Thanks", "You're welcome! sir"),
     ("Thank you", "No problem! Happy to help."),
-    ("what are you doing", "Iam just listning for you sir")
+    ("what are you doing", "Iam just listning for you sir"),
 ]
 
 def speak(text):
@@ -105,6 +105,7 @@ def get_weather(city):
 # Response generation function
 def generate_response(user_input):
     user_input_tokens = preprocess(user_input)
+    
 
 
     if 'open' in user_input_tokens:
@@ -116,22 +117,24 @@ def generate_response(user_input):
             print("Opening Google")
             webbrowser.open("https://www.google.com")
             return "Opening Google"
-
+    elif 'made' in user_input:
+        return "The name is Kalaiyarasan , my boss"
     elif 'play' in user_input:
-        if 'local' or '' in user_input_tokens:
+        if 'local' in user_input_tokens:
             music_dir = 'E:\\music\\hck'  # Change this to your music directory
             if os.path.isdir(music_dir):
                 songs = os.listdir(music_dir)
                 if songs:
                     os.startfile(os.path.join(music_dir, songs[0]))
                     speak("Playing music")
-                    return 0
+                    return ""
                 else:
                     return "No music files found in the directory."
             else:
                 return "Music directory not found."
         elif 'play' in user_input_tokens:
-            user_input=user_input.replace('play','')
+            user_input=user_input.replace('play','') 
+            user_input= user_input.replace('denver','')
             speak("playing"+user_input)
             pywhatkit.playonyt(user_input)
         
@@ -166,7 +169,7 @@ def generate_response(user_input):
             return results
         except:
             print("no result")
-            speak("No results found")
+            return "No results found"
 
     # Time API
     if "time" in user_input_tokens:
@@ -192,7 +195,7 @@ def generate_response(user_input):
 
     # Find the best matching response for general conversations
     max_similarity = 0
-    best_response = ""
+    best_response = "none"
 
     for pattern, response in conversations:
         pattern_tokens = preprocess(pattern)
@@ -224,8 +227,10 @@ if __name__ == "__main__":
                     break
                 if user_input:
                     response = generate_response(user_input)
-                    print(f"Bot: {response}")
-                    speak(response)
-                if "Sleep" in user_input:
+                    if not 'none' in response:
+                        
+                        print(f"Bot: {response}")
+                        speak(response)
+                if "sleep" in user_input:
                     speak("iam muting sir")
                     break
