@@ -1,0 +1,5 @@
+Requirement already satisfied: requests in c:\users\kalai\documents\github\edith001\edithenv\lib\site-packages (2.25.1)
+Requirement already satisfied: chardet<5,>=3.0.2 in c:\users\kalai\documents\github\edith001\edithenv\lib\site-packages (from requests) (4.0.0)
+Requirement already satisfied: idna<3,>=2.5 in c:\users\kalai\documents\github\edith001\edithenv\lib\site-packages (from requests) (2.10)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in c:\users\kalai\documents\github\edith001\edithenv\lib\site-packages (from requests) (1.26.18)
+Requirement already satisfied: certifi>=2017.4.17 in c:\users\kalai\documents\github\edith001\edithenv\lib\site-packages (from requests) (2024.2.2)
